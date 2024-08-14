@@ -19,10 +19,11 @@ model Animal {
   name        String
   species     AnimalSpecies
   description String        @db.Text
+  imgUrl      String
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime
-  deletedAt DateTime
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 }
 
 enum AnimalSpecies {
