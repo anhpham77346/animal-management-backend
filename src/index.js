@@ -1,10 +1,12 @@
 import express from 'express';
 import { PrismaClient } from '@prisma/client';
+import cors from 'cors';
 
 const app = express();
 const prisma = new PrismaClient();
 const PORT = process.env.PORT || 3000;
 
+app.use(cors());
 app.use(express.json());
 
 app.get('/', (req, res) => {
@@ -32,7 +34,11 @@ app.get('/api/animals/:id', async (req, res) => {
 
 app.get('/api/animals', async (req, res) => {
     try {
-        const animals = await prisma.animal.findMany();
+        const animals = await prisma.animal.findMany({
+            where: {
+                deletedAt: null
+            }
+        });
         res.status(200).json(animals);
     } catch (error) {
         console.error(error);
